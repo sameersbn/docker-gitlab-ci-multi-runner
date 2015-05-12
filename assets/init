@@ -44,12 +44,13 @@ appStart () {
 appSetup () {
   if [ -n "${CI_SERVER_URL}" -a -n "${RUNNER_TOKEN}" -a -n "${RUNNER_DESCRIPTION}" -a -n "${RUNNER_EXECUTOR}" ]; then
     sudo -u gitlab_ci_multi_runner -H \
-      gitlab-ci-multi-runner register --config ${DATA_DIR}/config.toml \
+      gitlab-ci-multi-runner register --config config.toml \
         -u "${CI_SERVER_URL}" -r "${RUNNER_TOKEN}" -d "${RUNNER_DESCRIPTION}" -e "${RUNNER_EXECUTOR}"
   else
     sudo -u gitlab_ci_multi_runner -H \
-      gitlab-ci-multi-runner register --config ${DATA_DIR}/config.toml
+      gitlab-ci-multi-runner register --config config.toml
   fi
+  mv config.toml "${DATA_DIR}/config.toml"
 }
 
 appHelp () {
