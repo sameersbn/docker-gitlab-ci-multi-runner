@@ -2,9 +2,9 @@
 set -e
 
 # add git user
-adduser --disabled-login --gecos 'GitLab CI Runner' gitlab_ci_multi_runner
+adduser --disabled-login --gecos 'GitLab CI Runner' ${GITLAB_CI_MULTI_RUNNER_USER}
 
-sudo -u gitlab_ci_multi_runner -H ln -s ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh ${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.ssh
+sudo -u ${GITLAB_CI_MULTI_RUNNER_USER} -H ln -s ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh ${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.ssh
 
 # download the gitlab-ci-multi-runner binary
 wget -O /usr/local/bin/gitlab-ci-multi-runner \
@@ -20,7 +20,7 @@ environment=HOME=${GITLAB_CI_MULTI_RUNNER_HOME_DIR}
 command=/usr/local/bin/gitlab-ci-multi-runner run
   --working-directory ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}
   --config ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml
-user=gitlab_ci_multi_runner
+user=${GITLAB_CI_MULTI_RUNNER_USER}
 autostart=true
 autorestart=true
 stopsignal=INT
