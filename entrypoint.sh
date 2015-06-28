@@ -8,13 +8,13 @@ mkdir -p ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}
 chown ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}
 
 # create the .ssh directory
-sudo -u ${GITLAB_CI_MULTI_RUNNER_USER} -H mkdir -p ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/
+sudo -Hu ${GITLAB_CI_MULTI_RUNNER_USER} mkdir -p ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/
 
 # generate deploy key
 if [ ! -e ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa -o ! -e ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa.pub ]; then
   echo "Generating SSH deploy keys..."
   rm -rf ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa.pub
-  sudo -u ${GITLAB_CI_MULTI_RUNNER_USER} -H ssh-keygen -t rsa -N "" -f ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa
+  sudo -Hu ${GITLAB_CI_MULTI_RUNNER_USER} ssh-keygen -t rsa -N "" -f ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa
 fi
 
 # make sure the ssh keys have the right ownership and permissions
@@ -40,11 +40,11 @@ appStart () {
 
 appSetup () {
   if [ -n "${CI_SERVER_URL}" -a -n "${RUNNER_TOKEN}" -a -n "${RUNNER_DESCRIPTION}" -a -n "${RUNNER_EXECUTOR}" ]; then
-    sudo -u ${GITLAB_CI_MULTI_RUNNER_USER} -H \
+    sudo -Hu ${GITLAB_CI_MULTI_RUNNER_USER} \
       gitlab-ci-multi-runner register --config config.toml \
         -u "${CI_SERVER_URL}" -r "${RUNNER_TOKEN}" -d "${RUNNER_DESCRIPTION}" -e "${RUNNER_EXECUTOR}"
   else
-    sudo -u ${GITLAB_CI_MULTI_RUNNER_USER} -H \
+    sudo -Hu ${GITLAB_CI_MULTI_RUNNER_USER} \
       gitlab-ci-multi-runner register --config config.toml
   fi
   mv config.toml "${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml"
