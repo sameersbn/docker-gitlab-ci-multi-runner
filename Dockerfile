@@ -8,7 +8,7 @@ ENV GITLAB_CI_MULTI_RUNNER_DATA_DIR="${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/data"
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E6030699E45FA1715D88E1DF1F24 \
  && echo "deb http://ppa.launchpad.net/git-core/ppa/ubuntu trusty main" >> /etc/apt/sources.list \
  && apt-get update \
- && apt-get install -y supervisor git-core openssh-client \
+ && apt-get install -y git-core openssh-client \
  && rm -rf /var/lib/apt/lists/*
 
 COPY assets/install.sh /var/cache/gitlab-ci-multi-runner/install.sh
