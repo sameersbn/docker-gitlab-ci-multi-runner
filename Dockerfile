@@ -10,10 +10,10 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E60
 COPY assets/install.sh /var/cache/gitlab-ci-multi-runner/install.sh
 RUN bash /var/cache/gitlab-ci-multi-runner/install.sh
 
-COPY assets/init /app/init
-RUN chmod 755 /app/init
+COPY assets/entrypoint.sh /app/entrypoint.sh
+RUN chmod 755 /app/entrypoint.sh
 
 VOLUME ["/home/gitlab_ci_multi_runner/data"]
 WORKDIR "/home/gitlab_ci_multi_runner"
-ENTRYPOINT ["/app/init"]
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["app:start"]
