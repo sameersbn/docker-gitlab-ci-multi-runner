@@ -8,8 +8,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E60
  && rm -rf /var/lib/apt/lists/* # 20150613
 
 COPY assets/install.sh /app/install.sh
-RUN chmod 755 /app/install.sh
-RUN /app/install.sh
+RUN bash /app/install.sh
 
 COPY assets/init /app/init
 RUN chmod 755 /app/init
