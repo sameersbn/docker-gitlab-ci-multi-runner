@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-HOME_DIR="/home/gitlab_ci_multi_runner"
-DATA_DIR="${HOME_DIR}/data"
-
 # add git user
 adduser --disabled-login --gecos 'GitLab CI Runner' gitlab_ci_multi_runner
 

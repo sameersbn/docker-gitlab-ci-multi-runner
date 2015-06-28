@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-HOME_DIR="/home/gitlab_ci_multi_runner"
-DATA_DIR="${HOME_DIR}/data"
-
 CA_CERTIFICATES_PATH=${CA_CERTIFICATES_PATH:-$DATA_DIR/certs/ca.crt}
 
 # create and take ownership of ${DATA_DIR}
