@@ -7,8 +7,8 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E60
  && apt-get install -y supervisor git-core openssh-client \
  && rm -rf /var/lib/apt/lists/* # 20150613
 
-COPY assets/install.sh /app/install.sh
-RUN bash /app/install.sh
+COPY assets/install.sh /var/cache/gitlab-ci-multi-runner/install.sh
+RUN bash /var/cache/gitlab-ci-multi-runner/install.sh
 
 COPY assets/init /app/init
 RUN chmod 755 /app/init
