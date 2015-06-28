@@ -1,7 +1,7 @@
 FROM sameersbn/ubuntu:14.04.20150613
 MAINTAINER sameer@damagehead.com
 
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E1DD270288B4E6030699E45FA1715D88E1DF1F24 \
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E6030699E45FA1715D88E1DF1F24 \
  && echo "deb http://ppa.launchpad.net/git-core/ppa/ubuntu trusty main" >> /etc/apt/sources.list \
  && apt-get update \
  && apt-get install -y supervisor git-core openssh-client \
