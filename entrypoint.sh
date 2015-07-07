@@ -47,7 +47,7 @@ appSetup () {
   if [ -n "${CI_SERVER_URL}" -a -n "${RUNNER_TOKEN}" -a -n "${RUNNER_DESCRIPTION}" -a -n "${RUNNER_EXECUTOR}" ]; then
     sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} \
       gitlab-ci-multi-runner register --config config.toml \
-        -u "${CI_SERVER_URL}" -r "${RUNNER_TOKEN}" -d "${RUNNER_DESCRIPTION}" -e "${RUNNER_EXECUTOR}"
+        -n -u "${CI_SERVER_URL}" -r "${RUNNER_TOKEN}" -d "${RUNNER_DESCRIPTION}" -e "${RUNNER_EXECUTOR}"
   else
     sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} \
       gitlab-ci-multi-runner register --config config.toml
