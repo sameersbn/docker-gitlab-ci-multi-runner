@@ -75,7 +75,7 @@ case "$1" in
     ;;
   *)
     if [ -x $1 ]; then
-      $1
+      $@
     else
       prog=$(which $1)
       if [ -n "${prog}" ] ; then
