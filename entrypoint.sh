@@ -80,7 +80,7 @@ case "$1" in
       prog=$(which $1)
       if [ -n "${prog}" ] ; then
         shift 1
-        $prog $@
+        exec $prog $@
       else
         appHelp
       fi
