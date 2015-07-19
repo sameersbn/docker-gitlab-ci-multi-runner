@@ -36,11 +36,11 @@ appStart () {
     appSetup
   fi
 
-  exec start-stop-daemon --start \
-          --chuid ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} \
-          --exec /usr/local/bin/gitlab-ci-multi-runner -- run \
-            --working-directory ${GITLAB_CI_MULTI_RUNNER_DATA_DIR} \
-            --config ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml
+  start-stop-daemon --start \
+    --chuid ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} \
+    --exec /usr/local/bin/gitlab-ci-multi-runner -- run \
+      --working-directory ${GITLAB_CI_MULTI_RUNNER_DATA_DIR} \
+      --config ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml
 }
 
 appSetup () {
