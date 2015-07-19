@@ -74,13 +74,13 @@ case "$1" in
     appHelp
     ;;
   *)
-    if [ -x $1 ]; then
+    if [ -x ${1} ]; then
       $@
     else
-      prog=$(which $1)
+      prog=$(which ${1})
       if [ -n "${prog}" ] ; then
         shift 1
-        exec $prog $@
+        exec ${prog} $@
       else
         appHelp
       fi
