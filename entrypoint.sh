@@ -35,7 +35,7 @@ update_ca_certificates() {
   fi
 }
 
-configure_ci_runner () {
+configure_ci_runner() {
   if [[ ! -e ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml ]]; then
     if [[ -n ${CI_SERVER_URL} && -n ${RUNNER_TOKEN} && -n ${RUNNER_DESCRIPTION} && -n ${RUNNER_EXECUTOR} ]]; then
       sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} \
