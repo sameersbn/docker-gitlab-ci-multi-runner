@@ -20,4 +20,3 @@ RUN chmod 755 /sbin/entrypoint.sh
 VOLUME ["${GITLAB_CI_MULTI_RUNNER_DATA_DIR}"]
 WORKDIR "${GITLAB_CI_MULTI_RUNNER_HOME_DIR}"
 ENTRYPOINT ["/sbin/entrypoint.sh"]
-CMD ["app:start"]
