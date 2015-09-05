@@ -3,30 +3,32 @@ set -e
 
 CA_CERTIFICATES_PATH=${CA_CERTIFICATES_PATH:-$GITLAB_CI_MULTI_RUNNER_DATA_DIR/certs/ca.crt}
 
-# create and take ownership of ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}
-mkdir -p ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}
-chown ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}
+create_data_dir() {
+  mkdir -p ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}
+  chown ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}
+}
 
-# create the .ssh directory
-sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} mkdir -p ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/
+generate_ssh_deploy_keys() {
+  sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} mkdir -p ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/
 
-# generate deploy key
-if [ ! -e ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa -o ! -e ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa.pub ]; then
-  echo "Generating SSH deploy keys..."
-  rm -rf ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa.pub
-  sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} ssh-keygen -t rsa -N "" -f ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa
-fi
+  if [ ! -e ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa -o ! -e ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa.pub ]; then
+    echo "Generating SSH deploy keys..."
+    rm -rf ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa.pub
+    sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} ssh-keygen -t rsa -N "" -f ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa
+  fi
 
-# make sure the ssh keys have the right ownership and permissions
-chmod 600 ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa.pub
-chmod 700 ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh
-chown -R ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/
+  chmod 600 ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/id_rsa.pub
+  chmod 700 ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh
+  chown -R ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh/
+}
 
-if [ -f "${CA_CERTIFICATES_PATH}" ]; then
-  echo "Updating CA certificates..."
-  cp "${CA_CERTIFICATES_PATH}" /usr/local/share/ca-certificates/ca.crt
-  update-ca-certificates --fresh >/dev/null
-fi
+update_ca_certificates() {
+  if [ -f "${CA_CERTIFICATES_PATH}" ]; then
+    echo "Updating CA certificates..."
+    cp "${CA_CERTIFICATES_PATH}" /usr/local/share/ca-certificates/ca.crt
+    update-ca-certificates --fresh >/dev/null
+  fi
+}
 
 appStart () {
   echo "Starting gitlab-ci-multi-runner..."
@@ -62,6 +64,10 @@ appHelp () {
   echo " app:help           - Displays the help"
   echo " [command]          - Execute the specified linux command eg. bash."
 }
+
+create_data_dir
+generate_ssh_deploy_keys
+update_ca_certificates
 
 case "$1" in
   app:start)
