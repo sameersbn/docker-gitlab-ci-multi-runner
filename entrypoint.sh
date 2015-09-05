@@ -48,6 +48,15 @@ create_data_dir
 generate_ssh_deploy_keys
 update_ca_certificates
 
+# allow arguments to be passed to gitlab-ci-multi-runner
+if [[ ${1:0:1} = '-' ]]; then
+  EXTRA_ARGS="$@"
+  set --
+elif [[ ${1} == gitlab-ci-multi-runner || ${1} == $(which gitlab-ci-multi-runner) ]]; then
+  EXTRA_ARGS="${@:2}"
+  set --
+fi
+
 # default behaviour is to launch gitlab-ci-multi-runner
 if [[ -z ${1} ]]; then
   configure_ci_runner
@@ -55,7 +64,7 @@ if [[ -z ${1} ]]; then
     --chuid ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} \
     --exec $(which gitlab-ci-multi-runner) -- run \
       --working-directory ${GITLAB_CI_MULTI_RUNNER_DATA_DIR} \
-      --config ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml
+      --config ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml ${EXTRA_ARGS}
 else
   exec "$@"
 fi
