@@ -48,10 +48,6 @@ configure_ci_runner() {
   fi
 }
 
-create_data_dir
-generate_ssh_deploy_keys
-update_ca_certificates
-
 # allow arguments to be passed to gitlab-ci-multi-runner
 if [[ ${1:0:1} = '-' ]]; then
   EXTRA_ARGS="$@"
@@ -63,7 +59,11 @@ fi
 
 # default behaviour is to launch gitlab-ci-multi-runner
 if [[ -z ${1} ]]; then
+  create_data_dir
+  update_ca_certificates
+  generate_ssh_deploy_keys
   configure_ci_runner
+
   start-stop-daemon --start \
     --chuid ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} \
     --exec $(which gitlab-ci-multi-runner) -- run \
