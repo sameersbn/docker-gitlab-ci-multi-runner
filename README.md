@@ -1,4 +1,4 @@
-# sameersbn/gitlab-ci-multi-runner:latest
+# sameersbn/gitlab-ci-multi-runner:0.5.5
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -47,7 +47,7 @@ If the above recommendations do not help then [report your issue](../../issues/n
 This image is available as a [trusted build](//hub.docker.com/r/sameersbn/gitlab-ci-multi-runner) on the [Docker hub](//hub.docker.com) and is the recommended method of installation.
 
 ```bash
-docker pull sameersbn/gitlab-ci-multi-runner:latest
+docker pull sameersbn/gitlab-ci-multi-runner:0.5.5
 ```
 
 Alternatively you can build the image yourself.
@@ -67,7 +67,7 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
   --volume /opt/gitlab-ci-multi-runner:/home/gitlab_ci_multi_runner/data \
   --env='CI_SERVER_URL=http://git.example.com' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
-  sameersbn/gitlab-ci-multi-runner:latest
+  sameersbn/gitlab-ci-multi-runner:0.5.5
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.example.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
@@ -81,7 +81,7 @@ You can customize the launch command by specifying arguments to `gitlab-ci-multi
 ```bash
 docker run --name gitlab-ci-multi-runner -it --rm \
   --volume /opt/gitlab-ci-multi-runner:/home/gitlab_ci_multi_runner/data \
-  sameersbn/gitlab-ci-multi-runner:latest --help
+  sameersbn/gitlab-ci-multi-runner:0.5.5 --help
 ```
 
 ## Persistence
@@ -126,7 +126,7 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull sameersbn/gitlab-ci-multi-runner:latest
+  docker pull sameersbn/gitlab-ci-multi-runner:0.5.5
   ```
 
   2. Stop the currently running image:
@@ -146,7 +146,7 @@ To upgrade to newer releases:
   ```bash
   docker run -name gitlab-ci-multi-runner -d \
     [OPTIONS] \
-    sameersbn/gitlab-ci-multi-runner:latest
+    sameersbn/gitlab-ci-multi-runner:0.5.5
   ```
 
 ## Shell Access
