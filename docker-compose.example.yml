@@ -1,0 +1,10 @@
+GitlabCIMultiRunner:
+  image: sameersbn/gitlab-ci-multi-runner:latest
+  volumes:
+    - /opt/gitlab-ci-multi-runner:/home/gitlab_ci_multi_runner/data
+  environment:
+    - CI_SERVER_URL=
+    - RUNNER_TOKEN=
+    - RUNNER_DESCRIPTION=
+    - RUNNER_EXECUTOR=shell
+  restart: always
