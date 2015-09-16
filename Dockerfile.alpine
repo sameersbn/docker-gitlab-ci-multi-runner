@@ -1,0 +1,22 @@
+FROM alpine:3.2
+
+ENV GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
+    GITLAB_CI_MULTI_RUNNER_HOME_DIR="/home/gitlab_ci_multi_runner"
+ENV GITLAB_CI_MULTI_RUNNER_DATA_DIR="${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/data"
+
+RUN apk add -U bash libc6-compat wget sudo openssh-client git \
+    && wget -O /tmp/glibc.apk "https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk" \
+    && apk add --allow-untrusted /tmp/glibc.apk \
+    && /usr/glibc/usr/bin/ldconfig /lib /usr/glibc/usr/lib \
+    && rm /tmp/glibc.apk \
+    && rm -rf /var/cache/apk/*
+
+COPY assets/install.alpine.sh /var/cache/gitlab-ci-multi-runner/install.sh
+RUN bash /var/cache/gitlab-ci-multi-runner/install.sh
+
+COPY entrypoint.sh /sbin/entrypoint.sh
+RUN chmod 755 /sbin/entrypoint.sh
+
+VOLUME ["${GITLAB_CI_MULTI_RUNNER_DATA_DIR}"]
+WORKDIR "${GITLAB_CI_MULTI_RUNNER_HOME_DIR}"
+ENTRYPOINT ["/sbin/entrypoint.sh"]
