@@ -35,6 +35,13 @@ update_ca_certificates() {
   fi
 }
 
+grant_access_to_docker_socket() {
+  if [ -S /run/docker.sock ]; then
+    groupadd -g 999 docker
+    usermod -a -G docker ${GITLAB_CI_MULTI_RUNNER_USER}
+  fi
+}
+
 configure_ci_runner() {
   if [[ ! -e ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml ]]; then
     if [[ -n ${CI_SERVER_URL} && -n ${RUNNER_TOKEN} && -n ${RUNNER_DESCRIPTION} && -n ${RUNNER_EXECUTOR} ]]; then
@@ -62,6 +69,7 @@ if [[ -z ${1} ]]; then
   create_data_dir
   update_ca_certificates
   generate_ssh_deploy_keys
+  grant_access_to_docker_socket
   configure_ci_runner
 
   start-stop-daemon --start \
