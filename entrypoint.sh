@@ -37,7 +37,7 @@ update_ca_certificates() {
 
 grant_access_to_docker_socket() {
   if [ -S /run/docker.sock ]; then
-    groupadd -g 999 docker
+    groupadd -g $(stat -c %g  /run/docker.sock) docker
     usermod -a -G docker ${GITLAB_CI_MULTI_RUNNER_USER}
   fi
 }
