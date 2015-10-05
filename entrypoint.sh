@@ -37,8 +37,13 @@ update_ca_certificates() {
 
 grant_access_to_docker_socket() {
   if [ -S /run/docker.sock ]; then
-    groupadd -g $(stat -c %g  /run/docker.sock) docker
-    usermod -a -G docker ${GITLAB_CI_MULTI_RUNNER_USER}
+    DOCKER_SOCKET_GID=$(stat -c %g  /run/docker.sock)
+    DOCKER_SOCKET_GROUP=$(stat -c %G /run/docker.sock)
+    if [[ ${DOCKER_SOCKET_GROUP} == "UNKNOWN" ]]; then
+      DOCKER_SOCKET_GROUP=docker
+      groupadd -g ${DOCKER_SOCKET_GID} ${DOCKER_SOCKET_GROUP}
+    fi
+    usermod -a -G ${DOCKER_SOCKET_GROUP} ${GITLAB_CI_MULTI_RUNNER_USER}
   fi
 }
 
