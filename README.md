@@ -1,3 +1,5 @@
+[![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
+
 # quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-1
 
 - [Introduction](#introduction)
