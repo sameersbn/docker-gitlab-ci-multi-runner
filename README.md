@@ -67,7 +67,7 @@ Before a runner can process your CI jobs, it needs to be authorized to access th
 ```bash
 docker run --name gitlab-ci-multi-runner -d --restart=always \
   --volume /opt/gitlab-ci-multi-runner:/home/gitlab_ci_multi_runner/data \
-  --env='CI_SERVER_URL=http://git.example.com' --env='RUNNER_TOKEN=xxxxxxxxx' \
+  --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
   quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-2
 ```
