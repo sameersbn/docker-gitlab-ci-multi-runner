@@ -1,6 +1,6 @@
 [![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
 
-# quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-2
+# quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-3
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -49,7 +49,7 @@ If the above recommendations do not help then [report your issue](../../issues/n
 Automated builds of the image are available on [Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner) and is the recommended method of installation.
 
 ```bash
-docker pull quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-2
+docker pull quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-3
 ```
 
 Alternatively you can build the image yourself.
@@ -69,7 +69,7 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
   --volume /opt/gitlab-ci-multi-runner:/home/gitlab_ci_multi_runner/data \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
-  quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-2
+  quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-3
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.example.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
@@ -83,7 +83,7 @@ You can customize the launch command by specifying arguments to `gitlab-ci-multi
 ```bash
 docker run --name gitlab-ci-multi-runner -it --rm \
   --volume /opt/gitlab-ci-multi-runner:/home/gitlab_ci_multi_runner/data \
-  quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-2 --help
+  quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-3 --help
 ```
 
 ## Persistence
@@ -128,7 +128,7 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-2
+  docker pull quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-3
   ```
 
   2. Stop the currently running image:
@@ -148,7 +148,7 @@ To upgrade to newer releases:
   ```bash
   docker run -name gitlab-ci-multi-runner -d \
     [OPTIONS] \
-    quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-2
+    quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-3
   ```
 
 ## Shell Access

@@ -1,5 +1,5 @@
 GitlabCIMultiRunner:
-  image: quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-2
+  image: quay.io/sameersbn/gitlab-ci-multi-runner:0.5.5-3
   volumes:
     - /opt/gitlab-ci-multi-runner:/home/gitlab_ci_multi_runner/data
   environment:
