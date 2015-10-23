@@ -1,4 +1,4 @@
-FROM quay.io/sameersbn/ubuntu:14.04.20151013
+FROM quay.io/sameersbn/ubuntu:14.04.20151023
 MAINTAINER sameer@damagehead.com
 
 ENV GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
