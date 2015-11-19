@@ -57,9 +57,7 @@ docker pull sameersbn/gitlab-ci-multi-runner:0.5.5-5
 Alternatively you can build the image yourself.
 
 ```bash
-git clone https://github.com/sameersbn/docker-gitlab-ci-multi-runner.git
-cd docker-gitlab-ci-multi-runner
-docker build --tag $USER/gitlab-ci-multi-runner .
+docker build -t sameersbn/gitlab-ci-multi-runner github.com/sameersbn/docker-gitlab-ci-multi-runner
 ```
 
 ## Quickstart
