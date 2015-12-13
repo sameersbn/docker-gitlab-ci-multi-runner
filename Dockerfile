@@ -1,4 +1,4 @@
-FROM sameersbn/ubuntu:14.04.20151117
+FROM sameersbn/ubuntu:14.04.20151213
 MAINTAINER sameer@damagehead.com
 
 ENV GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
