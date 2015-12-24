@@ -7,6 +7,6 @@ adduser --disabled-login --gecos 'GitLab CI Runner' ${GITLAB_CI_MULTI_RUNNER_USE
 sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} ln -s ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh ${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.ssh
 
 # download the gitlab-ci-multi-runner binary
-wget -O /usr/local/bin/gitlab-ci-multi-runner \
-  https://gitlab-ci-multi-runner-downloads.s3.amazonaws.com/v${GITLAB_CI_MULTI_RUNNER_VERSION}/binaries/gitlab-ci-multi-runner-linux-amd64
-chmod +x /usr/local/bin/gitlab-ci-multi-runner
+curl -s https://packages.gitlab.com/install/repositories/runner/gitlab-ci-multi-runner/script.deb.sh | sudo bash
+sudo apt-get install gitlab-ci-multi-runner=${GITLAB_CI_MULTI_RUNNER_VERSION}
+rm -rf /var/lib/apt/lists/*
