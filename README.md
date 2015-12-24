@@ -1,6 +1,6 @@
 [![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
 
-# sameersbn/gitlab-ci-multi-runner:0.6.2
+# sameersbn/gitlab-ci-multi-runner:0.7.2
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -51,7 +51,7 @@ Automated builds of the image are available on [Dockerhub](https://hub.docker.co
 > **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
 
 ```bash
-docker pull sameersbn/gitlab-ci-multi-runner:0.6.2
+docker pull sameersbn/gitlab-ci-multi-runner:0.7.2
 ```
 
 Alternatively you can build the image yourself.
@@ -66,10 +66,10 @@ Before a runner can process your CI jobs, it needs to be authorized to access th
 
 ```bash
 docker run --name gitlab-ci-multi-runner -d --restart=always \
-  --volume /opt/gitlab-ci-multi-runner:/home/gitlab_ci_multi_runner/data \
+  --volume /srv/docker/gitlab-runner:/home/gitlab-runner/data \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
-  sameersbn/gitlab-ci-multi-runner:0.6.2
+  sameersbn/gitlab-ci-multi-runner:0.7.2
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.example.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
@@ -82,26 +82,26 @@ You can customize the launch command by specifying arguments to `gitlab-ci-multi
 
 ```bash
 docker run --name gitlab-ci-multi-runner -it --rm \
-  --volume /opt/gitlab-ci-multi-runner:/home/gitlab_ci_multi_runner/data \
-  sameersbn/gitlab-ci-multi-runner:0.6.2 --help
+  --volume /srv/docker/gitlab-runner:/home/gitlab-runner/data \
+  sameersbn/gitlab-ci-multi-runner:0.7.2 --help
 ```
 
 ## Persistence
 
-For the image to preserve its state across container shutdown and startup you should mount a volume at `/home/gitlab_ci_multi_runner/data`.
+For the image to preserve its state across container shutdown and startup you should mount a volume at `/home/gitlab-runner/data`.
 
 > *The [Quickstart](#quickstart) command already mounts a volume for persistence.*
 
 SELinux users should update the security context of the host mountpoint so that it plays nicely with Docker:
 
 ```bash
-mkdir -p /srv/docker/gitlab-ci-multi-runner
-chcon -Rt svirt_sandbox_file_t /srv/docker/gitlab-ci-multi-runner
+mkdir -p /srv/docker/gitlab-runner
+chcon -Rt svirt_sandbox_file_t /srv/docker/gitlab-runner
 ```
 
 ## Deploy Keys
 
-At first run the image automatically generates SSH deploy keys which are installed at `/home/gitlab_ci_multi_runner/data/.ssh` of the persistent data store. You can replace these keys with your own if you wish to do so.
+At first run the image automatically generates SSH deploy keys which are installed at `/home/gitlab-runner/data/.ssh` of the persistent data store. You can replace these keys with your own if you wish to do so.
 
 You can use these keys to allow the runner to gain access to your private git repositories over the SSH protocol.
 
@@ -111,7 +111,7 @@ You can use these keys to allow the runner to gain access to your private git re
 
 If your GitLab server is using self-signed SSL certificates then you should make sure the GitLab server's SSL certificate is trusted on the runner for the git clone operations to work.
 
-The runner is configured to look for trusted SSL certificates at `/home/gitlab_ci_multi_runner/data/certs/ca.crt`. This path can be changed using the `CA_CERTIFICATES_PATH` enviroment variable.
+The runner is configured to look for trusted SSL certificates at `/home/gitlab-runner/data/certs/ca.crt`. This path can be changed using the `CA_CERTIFICATES_PATH` enviroment variable.
 
 Create a file named `ca.crt` in a `certs` folder at the root of your persistent data volume. The `ca.crt` file should contain the root certificates of all the servers you want to trust.
 
@@ -128,7 +128,7 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull sameersbn/gitlab-ci-multi-runner:0.6.2
+  docker pull sameersbn/gitlab-ci-multi-runner:0.7.2
   ```
 
   2. Stop the currently running image:
@@ -148,7 +148,7 @@ To upgrade to newer releases:
   ```bash
   docker run -name gitlab-ci-multi-runner -d \
     [OPTIONS] \
-    sameersbn/gitlab-ci-multi-runner:0.6.2
+    sameersbn/gitlab-ci-multi-runner:0.7.2
   ```
 
 ## Shell Access
