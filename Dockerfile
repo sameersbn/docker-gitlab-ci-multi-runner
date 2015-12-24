@@ -1,7 +1,8 @@
 FROM sameersbn/ubuntu:14.04.20151213
 MAINTAINER sameer@damagehead.com
 
-ENV GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
+ENV GITLAB_CI_MULTI_RUNNER_VERSION=0.6.2 \
+    GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
     GITLAB_CI_MULTI_RUNNER_HOME_DIR="/home/gitlab_ci_multi_runner"
 ENV GITLAB_CI_MULTI_RUNNER_DATA_DIR="${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/data"
 
