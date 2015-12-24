@@ -2,8 +2,8 @@ FROM sameersbn/ubuntu:14.04.20151213
 MAINTAINER sameer@damagehead.com
 
 ENV GITLAB_CI_MULTI_RUNNER_VERSION=0.7.2 \
-    GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
-    GITLAB_CI_MULTI_RUNNER_HOME_DIR="/home/gitlab_ci_multi_runner"
+    GITLAB_CI_MULTI_RUNNER_USER=gitlab-runner \
+    GITLAB_CI_MULTI_RUNNER_HOME_DIR="/home/gitlab-runner"
 ENV GITLAB_CI_MULTI_RUNNER_DATA_DIR="${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/data"
 
 RUN wget -q -O - "https://packages.gitlab.com/gpg.key" | sudo apt-key add - \
