@@ -14,10 +14,8 @@ RUN wget -q -O - "https://packages.gitlab.com/gpg.key" | sudo apt-key add - \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       gitlab-ci-multi-runner=${GITLAB_CI_MULTI_RUNNER_VERSION} \
       git-core openssh-client curl libapparmor1 libapparmor1 \
+ && sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} ln -sf ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh ${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.ssh \
  && rm -rf /var/lib/apt/lists/*
-
-COPY assets/install.sh /var/cache/gitlab-ci-multi-runner/install.sh
-RUN bash /var/cache/gitlab-ci-multi-runner/install.sh
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
