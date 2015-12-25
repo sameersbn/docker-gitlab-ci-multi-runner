@@ -1,6 +1,6 @@
 # Changelog
 
-**latest**
+**0.7.2**
  - gitlab-ci-multi-runner: upgrade to 0.7.2
 
 **0.5.5-1**
