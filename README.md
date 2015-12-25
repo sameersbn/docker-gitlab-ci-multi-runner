@@ -66,7 +66,7 @@ Before a runner can process your CI jobs, it needs to be authorized to access th
 
 ```bash
 docker run --name gitlab-ci-multi-runner -d --restart=always \
-  --volume /srv/docker/gitlab-runner:/home/gitlab-runner/data \
+  --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
   sameersbn/gitlab-ci-multi-runner:0.7.2
@@ -82,13 +82,13 @@ You can customize the launch command by specifying arguments to `gitlab-ci-multi
 
 ```bash
 docker run --name gitlab-ci-multi-runner -it --rm \
-  --volume /srv/docker/gitlab-runner:/home/gitlab-runner/data \
+  --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
   sameersbn/gitlab-ci-multi-runner:0.7.2 --help
 ```
 
 ## Persistence
 
-For the image to preserve its state across container shutdown and startup you should mount a volume at `/home/gitlab-runner/data`.
+For the image to preserve its state across container shutdown and startup you should mount a volume at `/home/gitlab_ci_multi_runner/data`.
 
 > *The [Quickstart](#quickstart) command already mounts a volume for persistence.*
 
@@ -101,7 +101,7 @@ chcon -Rt svirt_sandbox_file_t /srv/docker/gitlab-runner
 
 ## Deploy Keys
 
-At first run the image automatically generates SSH deploy keys which are installed at `/home/gitlab-runner/data/.ssh` of the persistent data store. You can replace these keys with your own if you wish to do so.
+At first run the image automatically generates SSH deploy keys which are installed at `/home/gitlab_ci_multi_runner/data/.ssh` of the persistent data store. You can replace these keys with your own if you wish to do so.
 
 You can use these keys to allow the runner to gain access to your private git repositories over the SSH protocol.
 
@@ -111,7 +111,7 @@ You can use these keys to allow the runner to gain access to your private git re
 
 If your GitLab server is using self-signed SSL certificates then you should make sure the GitLab server's SSL certificate is trusted on the runner for the git clone operations to work.
 
-The runner is configured to look for trusted SSL certificates at `/home/gitlab-runner/data/certs/ca.crt`. This path can be changed using the `CA_CERTIFICATES_PATH` enviroment variable.
+The runner is configured to look for trusted SSL certificates at `/home/gitlab_ci_multi_runner/data/certs/ca.crt`. This path can be changed using the `CA_CERTIFICATES_PATH` enviroment variable.
 
 Create a file named `ca.crt` in a `certs` folder at the root of your persistent data volume. The `ca.crt` file should contain the root certificates of all the servers you want to trust.
 

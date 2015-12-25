@@ -2,8 +2,8 @@ FROM sameersbn/ubuntu:14.04.20151213
 MAINTAINER sameer@damagehead.com
 
 ENV GITLAB_CI_MULTI_RUNNER_VERSION=0.7.2 \
-    GITLAB_CI_MULTI_RUNNER_USER=gitlab-runner \
-    GITLAB_CI_MULTI_RUNNER_HOME_DIR="/home/gitlab-runner"
+    GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
+    GITLAB_CI_MULTI_RUNNER_HOME_DIR="/home/gitlab_ci_multi_runner"
 ENV GITLAB_CI_MULTI_RUNNER_DATA_DIR="${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/data"
 
 RUN wget -q -O - "https://packages.gitlab.com/gpg.key" | sudo apt-key add - \
@@ -14,6 +14,8 @@ RUN wget -q -O - "https://packages.gitlab.com/gpg.key" | sudo apt-key add - \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       gitlab-ci-multi-runner=${GITLAB_CI_MULTI_RUNNER_VERSION} \
       git-core openssh-client curl libapparmor1 libapparmor1 \
+ && userdel -r gitlab-runner \
+ && adduser --disabled-login --gecos 'GitLab CI Runner' ${GITLAB_CI_MULTI_RUNNER_USER} \
  && sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} ln -sf ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh ${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.ssh \
  && rm -rf /var/lib/apt/lists/*
 
