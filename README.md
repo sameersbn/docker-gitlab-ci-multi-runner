@@ -72,7 +72,7 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
   sameersbn/gitlab-ci-multi-runner:0.7.2
 ```
 
-*Alternatively, you can use the sample [docker-compose.yml](docker-compose.example.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
+*Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
 
 Update the values of `CI_SERVER_URL`, `RUNNER_TOKEN` and `RUNNER_DESCRIPTION` in the above command. If these enviroment variables are not specified, you will be prompted to enter these details interactively on first run.
 
