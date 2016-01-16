@@ -10,7 +10,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E60
  && echo "deb http://ppa.launchpad.net/git-core/ppa/ubuntu trusty main" >> /etc/apt/sources.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      git-core openssh-client curl libapparmor1 libapparmor1 \
+      git-core openssh-client curl libapparmor1 \
  && wget -O /usr/local/bin/gitlab-ci-multi-runner \
       https://gitlab-ci-multi-runner-downloads.s3.amazonaws.com/v${GITLAB_CI_MULTI_RUNNER_VERSION}/binaries/gitlab-ci-multi-runner-linux-amd64 \
  && chmod 0755 /usr/local/bin/gitlab-ci-multi-runner \
