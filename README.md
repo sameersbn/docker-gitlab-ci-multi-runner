@@ -105,7 +105,10 @@ At first run the image automatically generates SSH deploy keys which are install
 
 You can use these keys to allow the runner to gain access to your private git repositories over the SSH protocol.
 
-*NOTE: The deploy keys are generated without a passphrase.*
+> **NOTE**
+>
+> - The deploy keys are generated without a passphrase.
+> - If your CI jobs clone repositories over SSH, you will need to build the ssh known hosts file which can be done in the build steps using, for example, `ssh-keyscan github.com | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts`.
 
 ## Trusting SSL Server Certificates
 
