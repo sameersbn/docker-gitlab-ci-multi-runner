@@ -1,6 +1,6 @@
 # Changelog
 
-**latest**
+**1.0.0-1**
  - gitlab-ci-multi-runner: upgrade to 1.0.4
 
 **1.0.0**
