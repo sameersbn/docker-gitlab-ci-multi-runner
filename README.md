@@ -1,6 +1,6 @@
 [![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
 
-# sameersbn/gitlab-ci-multi-runner:1.1.4-5
+# sameersbn/gitlab-ci-multi-runner:1.1.4-6
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -51,7 +51,7 @@ Automated builds of the image are available on [Dockerhub](https://hub.docker.co
 > **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
 
 ```bash
-docker pull sameersbn/gitlab-ci-multi-runner:1.1.4-5
+docker pull sameersbn/gitlab-ci-multi-runner:1.1.4-6
 ```
 
 Alternatively you can build the image yourself.
@@ -69,12 +69,20 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
-  sameersbn/gitlab-ci-multi-runner:1.1.4-5
+  sameersbn/gitlab-ci-multi-runner:1.1.4-6
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
 
 Update the values of `CI_SERVER_URL`, `RUNNER_TOKEN` and `RUNNER_DESCRIPTION` in the above command. If these enviroment variables are not specified, you will be prompted to enter these details interactively on first run.
+
+## Using docker executor
+
+You can use the docker executor by using `RUNNER_EXECUTOR=docker`. You must provide a docker image to use in `RUNNER_DOCKER_IMAGE` (e.g. docker:latest)
+
+If `RUNNER_DOCKER_MODE` is set to `socket`, the docker socket is shared between the runner and the build container.  If it is not, you must use docker in docker service in your .gitlabci.yml definitions.
+
+See https://docs.gitlab.com/ce/ci/docker/using_docker_build.html for more info.
 
 ## Command-line arguments
 
@@ -83,7 +91,7 @@ You can customize the launch command by specifying arguments to `gitlab-ci-multi
 ```bash
 docker run --name gitlab-ci-multi-runner -it --rm \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
-  sameersbn/gitlab-ci-multi-runner:1.1.4-5 --help
+  sameersbn/gitlab-ci-multi-runner:1.1.4-6 --help
 ```
 
 ## Persistence
@@ -131,7 +139,7 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull sameersbn/gitlab-ci-multi-runner:1.1.4-5
+  docker pull sameersbn/gitlab-ci-multi-runner:1.1.4-6
   ```
 
   2. Stop the currently running image:
@@ -151,7 +159,7 @@ To upgrade to newer releases:
   ```bash
   docker run -name gitlab-ci-multi-runner -d \
     [OPTIONS] \
-    sameersbn/gitlab-ci-multi-runner:1.1.4-5
+    sameersbn/gitlab-ci-multi-runner:1.1.4-6
   ```
 
 ## Shell Access

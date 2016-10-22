@@ -1,5 +1,8 @@
 # Changelog
 
+**1.1.4-6**
+ - added docker executor
+
 **1.1.4**
  - gitlab-ci-multi-runner: upgrade to 1.1.4
 
