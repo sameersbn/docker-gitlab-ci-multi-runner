@@ -47,6 +47,14 @@ grant_access_to_docker_socket() {
   fi
 }
 
+configure_docker_credentials() {
+  if [[ -n "${RUNNER_DOCKER_PRIVATE_REGISTRY_URL}" && -n "${RUNNER_DOCKER_PRIVATE_REGISTRY_TOKEN}" ]];then
+    sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} mkdir "${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.docker"
+    sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} \
+    echo "\"auths\": {\"${RUNNER_DOCKER_PRIVATE_REGISTRY_URL}\": {\"auth\": \"${RUNNER_DOCKER_PRIVATE_REGISTRY_TOKEN}\"}}}" > "${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.docker/config.json"
+  fi
+}
+
 configure_ci_runner() {
   if [[ ! -e ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml ]]; then
     if [[ -n ${CI_SERVER_URL} && -n ${RUNNER_TOKEN} && -n ${RUNNER_DESCRIPTION} && -n ${RUNNER_EXECUTOR} ]]; then
@@ -84,6 +92,7 @@ if [[ -z ${1} ]]; then
   generate_ssh_deploy_keys
   grant_access_to_docker_socket
   configure_ci_runner
+  configure_docker_credentials
 
   start-stop-daemon --start \
     --chuid ${GITLAB_CI_MULTI_RUNNER_USER}:${GITLAB_CI_MULTI_RUNNER_USER} \
