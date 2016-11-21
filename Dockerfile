@@ -5,7 +5,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && echo 'APT::Install-Suggests 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      vim.tiny wget sudo net-tools ca-certificates unzip git-core openssh-client curl libapparmor1
+      vim.tiny wget sudo net-tools ca-certificates unzip git openssh-client curl libapparmor1
 
 ENV GITLAB_CI_MULTI_RUNNER_VERSION=1.7.0 \
     GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
