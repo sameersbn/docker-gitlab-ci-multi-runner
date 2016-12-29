@@ -65,6 +65,9 @@ configure_ci_runner() {
         if [[ "${RUNNER_DOCKER_MODE}" == "socket" ]];then
           RUNNER_DOCKER_ARGS="$RUNNER_DOCKER_ARGS --docker-volumes /var/run/docker.sock:/var/run/docker.sock"
         fi
+        if [[ -n ${RUNNER_DOCKER_ADDITIONAL_VOLUME} ]];then
+          RUNNER_DOCKER_ARGS="$RUNNER_DOCKER_ARGS --docker-volumes ${RUNNER_DOCKER_ADDITIONAL_VOLUME}"
+        fi
       fi
       sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} \
         gitlab-ci-multi-runner register --config ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml \
