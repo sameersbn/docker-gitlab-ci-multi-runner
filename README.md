@@ -1,6 +1,6 @@
-[![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
+[![Docker Repository on Quay.io](https://quay.io/repository/digitallumberjack/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/digitallumberjack/gitlab-ci-multi-runner)
 
-# sameersbn/gitlab-ci-multi-runner:1.8.0
+# digitallumberjack/gitlab-ci-multi-runner:1.9.0
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -46,18 +46,18 @@ If the above recommendations do not help then [report your issue](../../issues/n
 
 ## Installation
 
-Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/sameersbn/gitlab-ci-multi-runner) and is the recommended method of installation.
+Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/digitallumberjack/gitlab-ci-multi-runner) and is the recommended method of installation.
 
-> **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
+> **Note**: Builds are also available on [Quay.io](https://quay.io/repository/digitallumberjack/gitlab-ci-multi-runner)
 
 ```bash
-docker pull sameersbn/gitlab-ci-multi-runner:1.8.0
+docker pull digitallumberjack/gitlab-ci-multi-runner:1.9.0
 ```
 
 Alternatively you can build the image yourself.
 
 ```bash
-docker build -t sameersbn/gitlab-ci-multi-runner github.com/sameersbn/docker-gitlab-ci-multi-runner
+docker build -t digitallumberjack/gitlab-ci-multi-runner github.com/sameersbn/docker-gitlab-ci-multi-runner
 ```
 
 ## Quickstart
@@ -69,7 +69,7 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
-  sameersbn/gitlab-ci-multi-runner:1.8.0
+  digitallumberjack/gitlab-ci-multi-runner:1.9.0
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
@@ -82,6 +82,28 @@ You can use the docker executor by using `RUNNER_EXECUTOR=docker`. You must prov
 
 If `RUNNER_DOCKER_MODE` is set to `socket`, the docker socket is shared between the runner and the build container.  If it is not, you must use docker in docker service in your .gitlabci.yml definitions.
 
+Start the docker runner in socket mode :
+```bash
+docker run --name gitlab-ci-multi-runner -d --restart=always \
+  --volume /var/run/docker.sock:/var/run/docker.sock
+  --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
+  --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
+  --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=docker' \
+  --env='RUNNER_DOCKER_IMAGE=docker:latest' --env='RUNNER_DOCKER_MODE=socket'
+  digitallumberjack/gitlab-ci-multi-runner:1.9.0
+```
+
+Start the docker runner in dind mode :
+```bash
+docker run --name gitlab-ci-multi-runner -d --restart=always \
+  --volume /var/run/docker.sock:/var/run/docker.sock
+  --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
+  --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
+  --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=docker' \
+  --env='RUNNER_DOCKER_IMAGE=docker:latest' --env='RUNNER_DOCKER_MODE=dind'
+  digitallumberjack/gitlab-ci-multi-runner:1.9.0
+```
+
 See https://docs.gitlab.com/ce/ci/docker/using_docker_build.html for more info.
 
 ## Command-line arguments
@@ -91,7 +113,7 @@ You can customize the launch command by specifying arguments to `gitlab-ci-multi
 ```bash
 docker run --name gitlab-ci-multi-runner -it --rm \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
-  sameersbn/gitlab-ci-multi-runner:1.8.0 --help
+  digitallumberjack/gitlab-ci-multi-runner:1.9.0 --help
 ```
 
 ## Persistence
@@ -139,7 +161,7 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull sameersbn/gitlab-ci-multi-runner:1.8.0
+  docker pull digitallumberjack/gitlab-ci-multi-runner:1.9.0
   ```
 
   2. Stop the currently running image:
@@ -159,7 +181,7 @@ To upgrade to newer releases:
   ```bash
   docker run -name gitlab-ci-multi-runner -d \
     [OPTIONS] \
-    sameersbn/gitlab-ci-multi-runner:1.8.0
+    digitallumberjack/gitlab-ci-multi-runner:1.9.0
   ```
 
 ## Shell Access

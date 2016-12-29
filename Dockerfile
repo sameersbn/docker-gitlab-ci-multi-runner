@@ -7,7 +7,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       vim.tiny wget sudo net-tools ca-certificates unzip git openssh-client curl libapparmor1
 
-ENV GITLAB_CI_MULTI_RUNNER_VERSION=1.8.0 \
+ENV GITLAB_CI_MULTI_RUNNER_VERSION=1.9.0 \
     GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
     GITLAB_CI_MULTI_RUNNER_HOME_DIR="/home/gitlab_ci_multi_runner"
 ENV GITLAB_CI_MULTI_RUNNER_DATA_DIR="${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/data"
