@@ -57,7 +57,7 @@ docker pull digitallumberjack/gitlab-ci-multi-runner:1.9.0
 Alternatively you can build the image yourself.
 
 ```bash
-docker build -t digitallumberjack/gitlab-ci-multi-runner github.com/sameersbn/docker-gitlab-ci-multi-runner
+docker build -t digitallumberjack/gitlab-ci-multi-runner github.com/digitallumberjack/docker-gitlab-ci-multi-runner
 ```
 
 ## Quickstart
@@ -105,6 +105,9 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
 ```
 
 See https://docs.gitlab.com/ce/ci/docker/using_docker_build.html for more info.
+## Concurrent jobs
+You an setup your runner to start multiple job in parallel by setting the environment variable `RUNNER_CONCURRENT` to the number of jobs you want to run concurrently.
+ 
 
 ## Command-line arguments
 

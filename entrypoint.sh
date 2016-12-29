@@ -73,6 +73,9 @@ configure_ci_runner() {
       sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} \
         gitlab-ci-multi-runner register --config ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml
     fi
+    if [[ -n ${RUNNER_CONCURRENT} ]];then
+      sed -i "s/concurrent = .*/concurent = ${RUNNER_CONCURRENT}/" ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml
+    fi
   fi
 }
 

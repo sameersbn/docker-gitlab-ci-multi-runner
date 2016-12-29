@@ -2,6 +2,7 @@
 
 **1.9.0**
  - gitlab-ci-multi-runner: upgrade to 1.9.0
+ - added concurrent jobs support
 
 **1.8.0**
  - gitlab-ci-multi-runner: upgrade to 1.8.0
