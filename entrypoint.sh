@@ -48,7 +48,7 @@ grant_access_to_docker_socket() {
 }
 
 configure_docker_credentials() {
-  if [[ -n "${RUNNER_DOCKER_PRIVATE_REGISTRY_URL}" && -n "${RUNNER_DOCKER_PRIVATE_REGISTRY_TOKEN}" ]];then
+  if [[ -n "${RUNNER_DOCKER_PRIVATE_REGISTRY_URL}" && -n "${RUNNER_DOCKER_PRIVATE_REGISTRY_TOKEN}" && ! -e "${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.docker/config.json" ]];then
     sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} mkdir "${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.docker"
     sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} \
     echo "{\"auths\": {\"${RUNNER_DOCKER_PRIVATE_REGISTRY_URL}\": {\"auth\": \"${RUNNER_DOCKER_PRIVATE_REGISTRY_TOKEN}\"}}}" > "${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.docker/config.json"
