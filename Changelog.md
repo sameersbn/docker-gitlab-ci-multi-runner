@@ -1,5 +1,12 @@
 # Changelog
 
+**1.9.3**
+  - gitlab-ci-multi-runner: upgrade to 1.9.3
+  - added support of RUNNER_OUTPUT_LIMIT 
+
+**1.9.0-1**
+  - fix restart of container
+
 **1.9.0**
  - gitlab-ci-multi-runner: upgrade to 1.9.0
  - added concurrent jobs support

@@ -64,6 +64,8 @@ docker build -t digitallumberjack/gitlab-ci-multi-runner github.com/digitallumbe
 
 Before a runner can process your CI jobs, it needs to be authorized to access the the GitLab CI server. The `CI_SERVER_URL`, `RUNNER_TOKEN`, `RUNNER_DESCRIPTION` and `RUNNER_EXECUTOR` environment variables are used to register the runner on GitLab CI.
 
+You can use any ENV variable supported by the gitlab ci runner.
+
 ```bash
 docker run --name gitlab-ci-multi-runner -d --restart=always \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
@@ -104,7 +106,13 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
   digitallumberjack/gitlab-ci-multi-runner:1.9.0
 ```
 
+If you want to share volumes between your containers and the runner in socket mode, use the `RUNNER_DOCKER_ADDITIONAL_VOLUME` variable to share `/builds:/builds`.
+
+You can increase the log maximum size by setting the RUNNER_OUTPUT_LIMIT variable (in kb) 
+
+
 See https://docs.gitlab.com/ce/ci/docker/using_docker_build.html for more info.
+
 ## Concurrent jobs
 You an setup your runner to start multiple job in parallel by setting the environment variable `RUNNER_CONCURRENT` to the number of jobs you want to run concurrently.
  
