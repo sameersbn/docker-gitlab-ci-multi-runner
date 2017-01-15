@@ -1,5 +1,5 @@
 GitlabCIMultiRunner:
-  image: sameersbn/gitlab-ci-multi-runner:1.1.4-6
+  image: sameersbn/gitlab-ci-multi-runner:1.1.4-7
   volumes:
     - /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data
   environment:
