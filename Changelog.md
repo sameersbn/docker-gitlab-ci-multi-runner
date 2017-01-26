@@ -1,5 +1,8 @@
 # Changelog
 
+**1.10.2**
+  - gitlab-ci-multi-runner: upgrade to 1.10.2
+
 **1.9.3**
   - gitlab-ci-multi-runner: upgrade to 1.9.3
   - added support of RUNNER_OUTPUT_LIMIT 
