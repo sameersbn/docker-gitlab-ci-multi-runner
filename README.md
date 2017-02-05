@@ -1,6 +1,6 @@
-[![Docker Repository on Quay.io](https://quay.io/repository/digitallumberjack/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/digitallumberjack/gitlab-ci-multi-runner)
+[![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
 
-# digitallumberjack/gitlab-ci-multi-runner:1.10.4
+# sameersbn/gitlab-ci-multi-runner:1.10.4
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -46,18 +46,18 @@ If the above recommendations do not help then [report your issue](../../issues/n
 
 ## Installation
 
-Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/digitallumberjack/gitlab-ci-multi-runner) and is the recommended method of installation.
+Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/sameersbn/gitlab-ci-multi-runner) and is the recommended method of installation.
 
-> **Note**: Builds are also available on [Quay.io](https://quay.io/repository/digitallumberjack/gitlab-ci-multi-runner)
+> **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
 
 ```bash
-docker pull digitallumberjack/gitlab-ci-multi-runner:1.10.4
+docker pull sameersbn/gitlab-ci-multi-runner:1.10.4
 ```
 
 Alternatively you can build the image yourself.
 
 ```bash
-docker build -t digitallumberjack/gitlab-ci-multi-runner github.com/digitallumberjack/docker-gitlab-ci-multi-runner
+docker build -t sameersbn/gitlab-ci-multi-runner github.com/sameersbn/docker-gitlab-ci-multi-runner
 ```
 
 ## Quickstart
@@ -71,7 +71,7 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
-  digitallumberjack/gitlab-ci-multi-runner:1.10.4
+  sameersbn/gitlab-ci-multi-runner:1.10.4
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
@@ -92,7 +92,7 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=docker' \
   --env='RUNNER_DOCKER_IMAGE=docker:latest' --env='RUNNER_DOCKER_MODE=socket'
-  digitallumberjack/gitlab-ci-multi-runner:1.10.4
+  sameersbn/gitlab-ci-multi-runner:1.10.4
 ```
 
 Start the docker runner in dind mode :
@@ -103,7 +103,7 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=docker' \
   --env='RUNNER_DOCKER_IMAGE=docker:latest' --env='RUNNER_DOCKER_MODE=dind'
-  digitallumberjack/gitlab-ci-multi-runner:1.10.4
+  sameersbn/gitlab-ci-multi-runner:1.10.4
 ```
 
 If you want to share volumes between your containers and the runner in socket mode, use the `RUNNER_DOCKER_ADDITIONAL_VOLUME` variable to share `/builds:/builds`.
@@ -124,7 +124,7 @@ You can customize the launch command by specifying arguments to `gitlab-ci-multi
 ```bash
 docker run --name gitlab-ci-multi-runner -it --rm \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
-  digitallumberjack/gitlab-ci-multi-runner:1.10.4 --help
+  sameersbn/gitlab-ci-multi-runner:1.10.4 --help
 ```
 
 ## Persistence
@@ -172,7 +172,7 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull digitallumberjack/gitlab-ci-multi-runner:1.10.4
+  docker pull sameersbn/gitlab-ci-multi-runner:1.10.4
   ```
 
   2. Stop the currently running image:
@@ -192,7 +192,7 @@ To upgrade to newer releases:
   ```bash
   docker run -name gitlab-ci-multi-runner -d \
     [OPTIONS] \
-    digitallumberjack/gitlab-ci-multi-runner:1.10.4
+    sameersbn/gitlab-ci-multi-runner:1.10.4
   ```
 
 ## Shell Access
