@@ -1,12 +1,5 @@
-FROM ubuntu:xenial
+FROM sameersbn/ubuntu:14.04.20170110
 MAINTAINER sameer@damagehead.com
-
-
-RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
- && echo 'APT::Install-Suggests 0;' >> /etc/apt/apt.conf.d/01norecommends \
- && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      vim.tiny wget sudo net-tools ca-certificates unzip git openssh-client curl libapparmor1
 
 ENV GITLAB_CI_MULTI_RUNNER_VERSION=1.10.2 \
     GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
@@ -36,8 +29,6 @@ RUN wget -O /usr/local/bin/gitlab-ci-multi-runner \
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
-
-RUN rm -rf /var/lib/apt/lists/*
 
 VOLUME ["${GITLAB_CI_MULTI_RUNNER_DATA_DIR}"]
 WORKDIR "${GITLAB_CI_MULTI_RUNNER_HOME_DIR}"
