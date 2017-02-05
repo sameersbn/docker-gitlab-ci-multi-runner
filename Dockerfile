@@ -19,6 +19,7 @@ ENV RUNNER_DOCKER_PRIVATE_REGISTRY_URL=''
 ENV RUNNER_DOCKER_PRIVATE_REGISTRY_TOKEN=''
 ENV RUNNER_DOCKER_ADDITIONAL_VOLUME=''
 ENV RUNNER_OUTPUT_LIMIT='4096'
+ENV RUNNER_AUTOUNREGISTER='false'
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E6030699E45FA1715D88E1DF1F24 \
  && echo "deb http://ppa.launchpad.net/git-core/ppa/ubuntu trusty main" >> /etc/apt/sources.list \

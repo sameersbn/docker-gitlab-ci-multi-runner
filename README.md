@@ -78,6 +78,23 @@ docker run --name gitlab-ci-multi-runner -d --restart=always \
 
 Update the values of `CI_SERVER_URL`, `RUNNER_TOKEN` and `RUNNER_DESCRIPTION` in the above command. If these enviroment variables are not specified, you will be prompted to enter these details interactively on first run.
 
+## Available variables
+
+You can customise the runner with the following env variables:
+- CA_CERTIFICATES_PATH: the path to your certificate
+- RUNNER_CONCURRENT: the number of concurrent job the runner can start
+- CI_SERVER_URL: your server URL (suffixed by /ci)
+- RUNNER_TOKEN: the runner token corresponding to your project
+- RUNNER_EXECUTOR: the executor to start
+- RUNNER_DESCRIPTION: the description of the runner, displayed in gitlab ui
+- RUNNER_DOCKER_IMAGE: the default image to run when starting a build
+- RUNNER_DOCKER_MODE: the docker mode to use, socket or dind
+- RUNNER_DOCKER_PRIVATE_REGISTRY_URL: url of private registry the runner should access
+- RUNNER_DOCKER_PRIVATE_REGISTRY_TOKEN: token of private registry the runner should access
+- RUNNER_DOCKER_ADDITIONAL_VOLUME: additionals volumes to share between host and jobs
+- RUNNER_OUTPUT_LIMIT: output limit in KB that a build can produce
+- RUNNER_AUTOUNREGISTER: auto unregister the runner when the container stops
+
 ## Using docker executor
 
 You can use the docker executor by using `RUNNER_EXECUTOR=docker`. You must provide a docker image to use in `RUNNER_DOCKER_IMAGE` (e.g. docker:latest)

@@ -105,6 +105,12 @@ if [[ -z ${1} ]]; then
     --exec $(which gitlab-ci-multi-runner) -- run \
       --working-directory ${GITLAB_CI_MULTI_RUNNER_DATA_DIR} \
       --config ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml ${EXTRA_ARGS}
+  echo "Stopping runner"
+  if [[ "${RUNNER_AUTOUNREGISTER}" == "true" ]];then
+    echo "Unregistering runner from ${CI_SERVER_URL}"
+    sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} \
+      gitlab-ci-multi-runner unregister --url ${CI_SERVER_URL} --token $(grep token ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/config.toml | awk '{print $3}' | tr -d '"')
+  fi
 else
   exec "$@"
 fi
