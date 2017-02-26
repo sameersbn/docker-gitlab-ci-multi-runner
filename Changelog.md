@@ -1,5 +1,11 @@
 # Changelog
 
+**1.11.0**
+  - added RUNNER_AUTOUNREGISTER option
+
+**1.10.4-2**
+  - added RUNNER_AUTOUNREGISTER option
+
 **1.10.4**
   - gitlab-ci-multi-runner: upgrade to 1.10.4
 
