@@ -60,6 +60,13 @@ configure_ci_runner() {
   fi
 }
 
+configure_sudoer() {
+  if [[ $SUDOER == true ]]; then
+    sudo adduser ${GITLAB_CI_MULTI_RUNNER_USER} sudo
+    sudo echo "${GITLAB_CI_MULTI_RUNNER_USER} ALL=NOPASSWD: ALL" > /etc/sudoers.d/${GITLAB_CI_MULTI_RUNNER_USER}
+  fi
+}
+
 # allow arguments to be passed to gitlab-ci-multi-runner
 if [[ ${1:0:1} = '-' ]]; then
   EXTRA_ARGS="$@"
@@ -75,6 +82,7 @@ if [[ -z ${1} ]]; then
   update_ca_certificates
   generate_ssh_deploy_keys
   grant_access_to_docker_socket
+  configure_sudoer
   configure_ci_runner
 
   start-stop-daemon --start \
