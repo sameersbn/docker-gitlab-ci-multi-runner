@@ -1,6 +1,6 @@
 [![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
 
-# sameersbn/gitlab-ci-multi-runner:1.1.4-7
+# sameersbn/gitlab-ci-multi-runner:1.11.2
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -51,7 +51,7 @@ Automated builds of the image are available on [Dockerhub](https://hub.docker.co
 > **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
 
 ```bash
-docker pull sameersbn/gitlab-ci-multi-runner:1.1.4-7
+docker pull sameersbn/gitlab-ci-multi-runner:1.11.2
 ```
 
 Alternatively you can build the image yourself.
@@ -64,17 +64,75 @@ docker build -t sameersbn/gitlab-ci-multi-runner github.com/sameersbn/docker-git
 
 Before a runner can process your CI jobs, it needs to be authorized to access the the GitLab CI server. The `CI_SERVER_URL`, `RUNNER_TOKEN`, `RUNNER_DESCRIPTION` and `RUNNER_EXECUTOR` environment variables are used to register the runner on GitLab CI.
 
+You can use any ENV variable supported by the gitlab ci runner.
+
 ```bash
 docker run --name gitlab-ci-multi-runner -d --restart=always \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
-  sameersbn/gitlab-ci-multi-runner:1.1.4-7
+  sameersbn/gitlab-ci-multi-runner:1.11.2
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
 
 Update the values of `CI_SERVER_URL`, `RUNNER_TOKEN` and `RUNNER_DESCRIPTION` in the above command. If these enviroment variables are not specified, you will be prompted to enter these details interactively on first run.
+
+## Available variables
+
+You can customise the runner with the following env variables:
+- CA_CERTIFICATES_PATH: the path to your certificate
+- RUNNER_CONCURRENT: the number of concurrent job the runner can start
+- CI_SERVER_URL: your server URL (suffixed by /ci)
+- RUNNER_TOKEN: the runner token corresponding to your project
+- RUNNER_EXECUTOR: the executor to start
+- RUNNER_DESCRIPTION: the description of the runner, displayed in gitlab ui
+- RUNNER_DOCKER_IMAGE: the default image to run when starting a build
+- RUNNER_DOCKER_MODE: the docker mode to use, socket or dind
+- RUNNER_DOCKER_PRIVATE_REGISTRY_URL: url of private registry the runner should access
+- RUNNER_DOCKER_PRIVATE_REGISTRY_TOKEN: token of private registry the runner should access
+- RUNNER_DOCKER_ADDITIONAL_VOLUME: additionals volumes to share between host and jobs
+- RUNNER_OUTPUT_LIMIT: output limit in KB that a build can produce
+- RUNNER_AUTOUNREGISTER: auto unregister the runner when the container stops
+
+## Using docker executor
+
+You can use the docker executor by using `RUNNER_EXECUTOR=docker`. You must provide a docker image to use in `RUNNER_DOCKER_IMAGE` (e.g. docker:latest)
+
+If `RUNNER_DOCKER_MODE` is set to `socket`, the docker socket is shared between the runner and the build container.  If it is not, you must use docker in docker service in your .gitlabci.yml definitions.
+
+Start the docker runner in socket mode :
+```bash
+docker run --name gitlab-ci-multi-runner -d --restart=always \
+  --volume /var/run/docker.sock:/var/run/docker.sock
+  --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
+  --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
+  --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=docker' \
+  --env='RUNNER_DOCKER_IMAGE=docker:latest' --env='RUNNER_DOCKER_MODE=socket'
+  sameersbn/gitlab-ci-multi-runner:1.11.2
+```
+
+Start the docker runner in dind mode :
+```bash
+docker run --name gitlab-ci-multi-runner -d --restart=always \
+  --volume /var/run/docker.sock:/var/run/docker.sock
+  --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
+  --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
+  --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=docker' \
+  --env='RUNNER_DOCKER_IMAGE=docker:latest' --env='RUNNER_DOCKER_MODE=dind'
+  sameersbn/gitlab-ci-multi-runner:1.11.2
+```
+
+If you want to share volumes between your containers and the runner in socket mode, use the `RUNNER_DOCKER_ADDITIONAL_VOLUME` variable to share `/builds:/builds`.
+
+You can increase the log maximum size by setting the RUNNER_OUTPUT_LIMIT variable (in kb) 
+
+
+See https://docs.gitlab.com/ce/ci/docker/using_docker_build.html for more info.
+
+## Concurrent jobs
+You an setup your runner to start multiple job in parallel by setting the environment variable `RUNNER_CONCURRENT` to the number of jobs you want to run concurrently.
+ 
 
 ## Command-line arguments
 
@@ -83,7 +141,7 @@ You can customize the launch command by specifying arguments to `gitlab-ci-multi
 ```bash
 docker run --name gitlab-ci-multi-runner -it --rm \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
-  sameersbn/gitlab-ci-multi-runner:1.1.4-7 --help
+  sameersbn/gitlab-ci-multi-runner:1.11.2 --help
 ```
 
 ## Persistence
@@ -131,7 +189,7 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull sameersbn/gitlab-ci-multi-runner:1.1.4-7
+  docker pull sameersbn/gitlab-ci-multi-runner:1.11.2
   ```
 
   2. Stop the currently running image:
@@ -151,7 +209,7 @@ To upgrade to newer releases:
   ```bash
   docker run -name gitlab-ci-multi-runner -d \
     [OPTIONS] \
-    sameersbn/gitlab-ci-multi-runner:1.1.4-7
+    sameersbn/gitlab-ci-multi-runner:1.11.2
   ```
 
 ## Shell Access
