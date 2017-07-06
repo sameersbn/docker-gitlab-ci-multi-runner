@@ -1,5 +1,5 @@
 FROM sameersbn/ubuntu:latest
-MAINTAINER sameer@damagehead.com
+MAINTAINER ishirk@zerrtech.com
 
 ENV GITLAB_CI_MULTI_RUNNER_VERSION=9.3.0 \
     GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
