@@ -1,26 +1,36 @@
-FROM sameersbn/ubuntu:14.04.20170110
-MAINTAINER sameer@damagehead.com
+#FROM alpine:3.8
+FROM docker:18.06
+LABEL author="xiaobo <peterwillcn@gmail.com>" version="0.0.1" \
+  description="This is a base image for gitlab-runner for docker"
 
-ENV GITLAB_CI_MULTI_RUNNER_VERSION=1.1.4 \
-    GITLAB_CI_MULTI_RUNNER_USER=gitlab_ci_multi_runner \
-    GITLAB_CI_MULTI_RUNNER_HOME_DIR="/home/gitlab_ci_multi_runner"
-ENV GITLAB_CI_MULTI_RUNNER_DATA_DIR="${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/data"
+ENV GITLAB_RUNNER_USER=gitlab-runner
+ENV GITLAB_RUNNER_HOME_DIR="/home/${GITLAB_RUNNER_USER}"
+ENV GITLAB_RUNNER_DATA_DIR="${GITLAB_RUNNER_HOME_DIR}/data"
 
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E6030699E45FA1715D88E1DF1F24 \
- && echo "deb http://ppa.launchpad.net/git-core/ppa/ubuntu trusty main" >> /etc/apt/sources.list \
- && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      git-core openssh-client curl libapparmor1 \
- && wget -O /usr/local/bin/gitlab-ci-multi-runner \
-      https://gitlab-ci-multi-runner-downloads.s3.amazonaws.com/v${GITLAB_CI_MULTI_RUNNER_VERSION}/binaries/gitlab-ci-multi-runner-linux-amd64 \
- && chmod 0755 /usr/local/bin/gitlab-ci-multi-runner \
- && adduser --disabled-login --gecos 'GitLab CI Runner' ${GITLAB_CI_MULTI_RUNNER_USER} \
- && sudo -HEu ${GITLAB_CI_MULTI_RUNNER_USER} ln -sf ${GITLAB_CI_MULTI_RUNNER_DATA_DIR}/.ssh ${GITLAB_CI_MULTI_RUNNER_HOME_DIR}/.ssh \
- && rm -rf /var/lib/apt/lists/*
+RUN apk add --update --no-cache sudo bash shadow ca-certificates git openssl tzdata wget && \
+  rm -rf /var/cache/apk/*
+
+RUN addgroup -S ${GITLAB_RUNNER_USER} && adduser -D -S -G ${GITLAB_RUNNER_USER} -h ${GITLAB_RUNNER_HOME_DIR} ${GITLAB_RUNNER_USER}
+RUN sudo -HEu ${GITLAB_RUNNER_USER} ln -sf ${GITLAB_RUNNER_DATA_DIR}/.ssh ${GITLAB_RUNNER_HOME_DIR}/.ssh
+
+ENV DOCKER_MACHINE_VERSION=0.15.0
+RUN wget -O /usr/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64 && \
+    chmod +x /usr/bin/gitlab-runner && \
+    ln -s /usr/bin/gitlab-runner /usr/bin/gitlab-ci-multi-runner && \
+    gitlab-runner --version && \
+    wget -q https://github.com/docker/machine/releases/download/v${DOCKER_MACHINE_VERSION}/docker-machine-Linux-x86_64 -O /usr/bin/docker-machine && \
+    chmod +x /usr/bin/docker-machine && \
+    docker-machine --version
+
+ENV DUMB_INIT_VERSION=1.2.2
+RUN wget -q https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_amd64 -O /usr/bin/dumb-init && \
+    chmod +x /usr/bin/dumb-init && \
+    dumb-init --version
 
 COPY entrypoint.sh /sbin/entrypoint.sh
-RUN chmod 755 /sbin/entrypoint.sh
+RUN chmod +x /sbin/entrypoint.sh
 
-VOLUME ["${GITLAB_CI_MULTI_RUNNER_DATA_DIR}"]
-WORKDIR "${GITLAB_CI_MULTI_RUNNER_HOME_DIR}"
-ENTRYPOINT ["/sbin/entrypoint.sh"]
+VOLUME ["${GITLAB_RUNNER_DATA_DIR}"]
+WORKDIR "${GITLAB_RUNNER_HOME_DIR}"
+
+ENTRYPOINT ["/usr/bin/dumb-init", "/sbin/entrypoint.sh"]
