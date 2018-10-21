@@ -1,10 +1,18 @@
-GitlabCIMultiRunner:
-  image: sameersbn/gitlab-ci-multi-runner:1.1.4-7
-  volumes:
-    - /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data
-  environment:
-    - CI_SERVER_URL=
-    - RUNNER_TOKEN=
-    - RUNNER_DESCRIPTION=
-    - RUNNER_EXECUTOR=shell
-  restart: always
+version: "3"
+# Register and configure ci runner for gitlab
+# author="xiaobo <peterwillcn@gmail.com>"
+services:
+  runner:
+    image: gitlab-runer-docker:latest
+    restart: always
+    environment:
+      - CI_SERVER_URL=
+      - RUNNER_TOKEN=
+      - RUNNER_DESCRIPTION=
+      - RUNNER_EXECUTOR=docker
+      - DOCKER_IMAGE=alpine:latest
+      - TLS_VERIFY=false
+      - RUN_UNTAGGED=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/docker/gitlab-runner:/home/gitlab-runner/data
